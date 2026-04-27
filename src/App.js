@@ -42,7 +42,7 @@ const DevWebsite = ({ branch }) => (
 // --- MAIN APP LOGIC ---
 function App() {
   // Fetching the variable from your .env file
-  const branch = process.env.REACT_APP_BRANCH_NAME || 'unknown';
+  const branch = process.env.main.REACT_APP_BRANCH_NAME || 'unknown';
 
   return (
     <div style={styles.wrapper}>
