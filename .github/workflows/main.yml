@@ -1,0 +1,38 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+
+
+jobs:
+  build-and-test:
+    runs-on: [self-hosted,arbor_main]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Environment File
+        run: |
+          if [[ "${{ github.ref_node_id }}" == *"main"* ]]; then
+            echo "Using Main Environment"
+            cp .env.main .env
+          else
+            echo "Using Dev Environment"
+            cp .env.dev .env
+          fi
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: |
+          # We pass the branch name as a build argument just like we did locally
+          docker build \
+            --build-arg REACT_APP_BRANCH_NAME=${{ github.ref_name }} \
+            -t my-react-app:${{ github.sha }} .
+
+      - name: Verify Build
+        run: |
+          docker images | grep my-react-app
