@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: CI/CD Pipeline
 
 on:
@@ -37,6 +36,3 @@ jobs:
       - name: Verify Build
         run: |
           docker images | grep my-react-app
-=======
-
->>>>>>> de38e4a6ca561f62b9e77d6b191c731d459576c2
